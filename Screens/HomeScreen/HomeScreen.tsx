@@ -17,6 +17,8 @@ const HomeScreen: React.FC<Props> = () => {
     const [search, setSearch] = useState<string>("");
     const [filter, setFilter] = useState<string>("");
 
+
+
     const get_characters = async (filter?: Record<string, any>) => {
 
         const response = await requestToAPI("/character", filter).get().catch(err => err.response);
