@@ -1,6 +1,5 @@
-import {genderTagStyles} from "./GenderTag.styles";
 import React from "react";
-import {Text} from "react-native";
+import {StyleSheet, Text} from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faMars, faVenus, faQuestion} from "@fortawesome/free-solid-svg-icons";
 
@@ -28,5 +27,19 @@ const GenderTag: React.FC<Props> = ({gender}) => {
         </Text>
     )
 }
+
+const genderTagStyles = StyleSheet.create({
+    genderTag: {
+        textTransform: "capitalize",
+        flexDirection: "row",
+        width: 90,
+        gap: 5,
+        backgroundColor: "#f0efed",
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 100
+    },
+})
 
 export default GenderTag

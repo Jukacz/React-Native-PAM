@@ -1,7 +1,10 @@
 import axios, {AxiosInstance} from "axios";
 
-export const requestToAPI = (endpoint: string, searchParams?: Record<string, any>) =>  {
-    const url = new URL(`https://rickandmortyapi.com/api${endpoint}`);
+export const requestToAPI = (endpoint: string, options?: {searchParams?: Record<string, any>, withoutBaseUrl?: boolean}) =>  {
+
+    const {searchParams, withoutBaseUrl} = options || {};
+
+    const url = new URL(!withoutBaseUrl ? `https://rickandmortyapi.com/api${endpoint}` : endpoint);
     const queryParams = new URLSearchParams(searchParams);
 
     const post = async (data: any) => {

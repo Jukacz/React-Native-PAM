@@ -1,4 +1,3 @@
-import {filterModalStyles} from "./FilterModal.styles";
 import {useState} from "react";
 import {Button, FormControl, Input, Modal, Radio} from "native-base";
 import {Text} from "react-native";
