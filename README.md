@@ -1,51 +1,49 @@
-# Rick and Morty Expo App
+Rick and Morty App
+==================
 
-## Opis projektu
-Rick and Morty Expo App to aplikacja mobilna stworzona przy użyciu platformy Expo, umożliwiającej korzystanie z publicznego interfejsu programowania aplikacji (API) Rick and Morty. Aplikacja umożliwia użytkownikowi przeglądanie informacji o postaciach i odcinkach z popularnego serialu animowanego "Rick and Morty".
+Project Description
+-------------------
 
-## Funkcje
+Rick and Morty App is a mobile application written in React Native, utilizing the Expo platform. The app uses the Rick and Morty public API to browse information about characters from the popular animated series. It features functionalities such as character search, adding to favorites, and viewing character details.
 
-### 1. Wyszukiwanie postaci
-Aplikacja umożliwia użytkownikowi wprowadzanie imienia postaci, a następnie przeglądanie szczegółowych informacji dotyczących wybranej postaci.
+Features
+--------
 
-### 2. Filtracja po statusie postaci
-Użytkownik może filtrować postaci w zależności od ich aktualnego statusu, takiego jak "żywy", "martwy" lub "nieznany". To ułatwia szybkie przeglądanie postaci zgodnie z określonym kryterium.
+1.  **Character Search:**
 
-### 3. Przeglądanie odcinków
-Aplikacja umożliwia użytkownikowi przeglądanie informacji o odcinkach serialu "Rick and Morty". Można sprawdzić numer odcinka, tytuł, datę emisji itp.
+   *   Search for Rick and Morty characters using the built-in search mechanism.
+2.  **Add to Favorites:**
 
-## Instrukcje uruchomienia
+   *   Add interesting characters to your favorites list for easy access.
+3.  **Character Details:**
 
-1. Zainstaluj Expo CLI globalnie.
-    ```bash
-    npm install -g expo-cli
-    ```
+   *   View detailed information about selected characters, including status, species, place of origin, etc.
 
-2. Sklonuj repozytorium na swój lokalny komputer.
-    ```bash
-    git clone https://github.com/Jukacz/React-Native-PAM/
-    ```
+Technologies
+------------
 
-3. Przejdź do katalogu projektu.
-    ```bash
-    cd rick-and-morty-expo-app
-    ```
+*   React Native
+*   Expo
+*   Rick and Morty API
 
-4. Zainstaluj wymagane zależności.
-    ```bash
-    npm install
-    ```
+Running on Mobile
+-----------------
 
-5. Uruchom aplikację Expo.
-    ```bash
-    expo start
-    ```
+### 1\. Download the Project
 
-6. Zeskanuj kod QR za pomocą aplikacji Expo Go na swoim urządzeniu lub uruchom aplikację w emulatorze.
+*   Clone the repository from GitHub: `git clone https://github.com/Jukacz/React-Native-PAM/`
+*   Navigate to the project directory: `cd React-Native-PAM`
 
-## Technologie użyte
+### 2\. Install Dependencies
 
-- React Native: Do budowy interfejsu mobilnego.
-- Expo: Do ułatwienia procesu budowy i testowania aplikacji React Native.
-- Rick and Morty API: Do pobierania danych o postaciach i odcinkach.
-- npm: Do zarządzania zależnościami i skryptami.
+*   Run the command: `npm install`
+
+### 3\. Run on Mobile
+
+*   Install the Expo Go app on your mobile device.
+*   Start the app with the command: `npm start`
+*   Scan the QR code using the Expo Go app on your phone.
+
+### 4\. Ready!
+
+*   The application should now be running on your phone, allowing you to use the search, add to favorites, and view character details features.
