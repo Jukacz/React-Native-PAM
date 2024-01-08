@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, Text} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faSkull, faHeart, faQuestion} from "@fortawesome/free-solid-svg-icons";
 
@@ -10,12 +10,12 @@ type Props = {
 const StatusTag: React.FC<Props> = ({status}) => {
 
     return (
-        <Text style={statusTagStyles.statusTag}>
-            <FontAwesomeIcon style={statusTagStyles.icon} icon={
+        <View style={statusTagStyles.statusTag}>
+            <FontAwesomeIcon icon={
                 status === "Alive" ? faHeart : (status === "Dead" ? faSkull : faQuestion)
             }/>
             <Text>{status}</Text>
-        </Text>
+        </View>
     )
 }
 
@@ -23,16 +23,14 @@ const statusTagStyles = StyleSheet.create({
     statusTag: {
         textTransform: "capitalize",
         flexDirection: "row",
-        width: 90   ,
-        gap: 5,
-        backgroundColor: "#f0efed",
-        padding: 5,
         alignItems: "center",
         justifyContent: "center",
+        gap: 5,
+        padding: 10,
+        backgroundColor: "#f0efed",
         borderRadius: 100
     },
     icon: {
-        paddingTop: 10,
     },
 })
 export default StatusTag

@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {Text, View, Image, TouchableOpacity, StyleSheet} from "react-native";
+import {Text, View, Image, TouchableOpacity, StyleSheet, ScrollView} from "react-native";
 import {Character} from "../../../types";
 import {OpenSans_300Light, useFonts} from "@expo-google-fonts/open-sans";
 import StatusTag from "../../StatusTag/StatusTag";
 import GenderTag from "../../GenderTag/GenderTag";
 import {useNavigation} from "@react-navigation/native";
 import {requestToAPI} from "../../../requestToAPI";
+import HeaderSearchInput from "../../Header/HeaderSearchInput";
+import Animated from "react-native-reanimated";
 
 type PropsWithCharacter = {
     character: Character;
@@ -22,14 +24,18 @@ type PropsWithUrl = {
 const CharacterCard: React.FC<PropsWithCharacter | PropsWithUrl> = ({character, onPress, url}) => {
     const [characterState, setCharacterState] = useState<Character>(character || {} as Character);
 
+    const [loading, setLoading] = useState<boolean>(!!url);
+
     const navigation = useNavigation();
 
     const getCharacterInfo = async () => {
+        (loading)
         if (!url) return
         const response = await requestToAPI(url, {withoutBaseUrl: true}).get().catch(err => err.response);
 
         if (response.status == 200) {
             setCharacterState(response.data)
+            setLoading(false)
             return
         }
     }
@@ -42,7 +48,7 @@ const CharacterCard: React.FC<PropsWithCharacter | PropsWithUrl> = ({character, 
         OpenSans_300Light
     })
 
-    if (!fontsLoaded) {
+    if (!fontsLoaded || loading) {
         return <Text>Loading...</Text>
     }
 
@@ -69,25 +75,28 @@ const styles = StyleSheet.create({
         padding: 10,
         flexDirection: "row",
         backgroundColor: "white",
+        alignItems: "center",
         elevation: 2,
         borderRadius: 10,
     },
 
     imageStyle: {
-        height: 100,
-        width: 100,
+        height: 90,
+        width: 90,
+        borderRadius: 10,
+        marginTop: 10,
     },
 
     characterName: {
         fontFamily: "OpenSans_300Light",
         paddingLeft: 10,
         fontSize: 25,
-        fontWeight: "600"
+        fontWeight: "600",
+        flexWrap: "wrap",
     },
 
     dataContainer: {
-        flexDirection: "column",
-        width: "auto",
+        paddingLeft: 10,
     },
     tags: {
         flexDirection: "row",

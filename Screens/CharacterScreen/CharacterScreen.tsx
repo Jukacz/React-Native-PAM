@@ -1,35 +1,76 @@
-import React from "react";
-import {Image, ScrollView, StyleSheet, Text, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Image, ScrollView, StyleSheet, Text, ToastAndroid, View} from "react-native";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RoutesType} from "../../Routes";
 import EpisodeCard from "../../Components/Cards/EpisodeCard/EpisodeCard";
+import Header from "../../Components/Header/Header";
+import {Button} from "native-base";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import {addCharacterToStorage, getCharacterFromStorage, removeCharacterFromStorage} from "../../AsyncStorage";
+import {SafeAreaView} from "react-native-safe-area-context";
+import Animated from "react-native-reanimated";
 
 type Props = NativeStackScreenProps<RoutesType, "CharacterScreen">
 
 const CharacterScreen: React.FC<Props> = ({navigation, route}) => {
     const {character} = route.params;
+    const [alreadyLiked, setAlreadyLiked] = useState<boolean>(false);
+
+    const checkIfAlreadyLiked = async () => {
+        const characterFromStorage = await getCharacterFromStorage(character.id.toString());
+        setAlreadyLiked(!!characterFromStorage);
+    }
+
+    const likeCharacter = async () => {
+        if (alreadyLiked) {
+            await removeCharacterFromStorage(character.id.toString());
+            setAlreadyLiked(false)
+            ToastAndroid.show("Character removed from favorites", ToastAndroid.SHORT);
+        } else {
+            await addCharacterToStorage(character.id.toString(), character.url);
+            setAlreadyLiked(true)
+            ToastAndroid.show("Character added to favorites", ToastAndroid.SHORT);
+        }
+    }
+
+    useEffect(() => {
+        checkIfAlreadyLiked()
+    }, [route.params.character])
 
     return (
-        <View style={styles.screen}>
-            <View style={styles.header}>
-                <Image style={styles.header__image} source={{uri: character?.image}}/>
-                <Text style={styles.header__text}>{character?.name}</Text>
+        <>
+            <View style={{paddingBottom: 100}}>
+                <SafeAreaView>
+                    <Header canGoBack={true}/>
+                    <ScrollView nestedScrollEnabled={true} style={styles.screen}>
+                        <View style={styles.header}>
+                            <Animated.Image sharedTransitionTag={"image"} style={styles.header__image} source={{uri: character?.image}}/>
+                            <Text style={styles.header__text}>{character?.name}</Text>
+                        </View>
+                        {/* Basic info */}
+                        <View style={styles.basicInfoContainer}>
+                            <BasicInfo title={"Status"} value={character?.status}/>
+                            <BasicInfo title={"Species"} value={character?.species}/>
+                            <BasicInfo title={"Last seen"} value={character?.location.name}/>
+                        </View>
+                        <View style={{marginTop: 20}}>
+                            <Text style={styles.episodes__title}>Episodes ({character.episode.length})</Text>
+                            <Text style={styles.episodes__description}>Episodes where character has been</Text>
+                            <ScrollView nestedScrollEnabled={true} style={styles.episodes}>
+                                <View style={styles.episodes__list}>
+                                    {character?.episode.reverse().map((episode, key) => <EpisodeCard key={key}
+                                                                                           urlToEpisode={episode}/>)}
+                                </View>
+                            </ScrollView>
+                        </View>
+                    </ScrollView>
+                </SafeAreaView>
             </View>
-            {/* Basic info */}
-            <View style={styles.basicInfoContainer}>
-                <BasicInfo title={"Status"} value={character?.status}/>
-                <BasicInfo title={"Species"} value={character?.species}/>
-                <BasicInfo title={"Last seen"} value={character?.location.name}/>
-            </View>
-            {/*Episodes characater played in*/}
-            <View style={styles.episodes}>
-                <Text style={styles.episodes__title}>Episodes</Text>
-                <Text style={styles.episodes__description}>Episodes where character has been</Text>
-                <ScrollView>
-                    {character?.episode.map(episode => <EpisodeCard urlToEpisode={episode}/>)}
-                </ScrollView>
-            </View>
-        </View>
+            <Button style={styles.likeButton} onPress={() => likeCharacter()}>
+                <FontAwesomeIcon color={alreadyLiked ? "red" : "black"} size={20} icon={faHeart}/>
+            </Button>
+        </>
     )
 }
 
@@ -54,7 +95,6 @@ const styles = StyleSheet.create({
     screen: {
         paddingLeft: 20,
         paddingRight: 20,
-        height: "100%",
         backgroundColor: "white",
     },
 
@@ -107,8 +147,8 @@ const styles = StyleSheet.create({
     },
     // episodes
     episodes: {
-        marginTop: 20,
-        height: 400,
+        height: "100%",
+        marginBottom: 50,
     },
     episodes__title: {
         fontSize: 20,
@@ -119,6 +159,17 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         color: "gray",
         marginBottom: 10,
+    },
+    episodes__list: {
+        gap: 10,
+    },
+    likeButton: {
+        position: "absolute",
+        bottom: 15,
+        right: 15,
+        height: 50,
+        width: 50,
+        backgroundColor: "#ededed",
     }
 })
 

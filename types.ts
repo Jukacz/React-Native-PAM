@@ -44,3 +44,8 @@ export type Episode = {
     url: string;
     created: string;
 }
+
+export type CharacterFromStorage = {
+    id: number | string;
+    url: string;
+}

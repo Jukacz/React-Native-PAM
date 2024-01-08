@@ -1,43 +1,42 @@
 import React from "react";
-import {StyleSheet, Text} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faMars, faVenus, faQuestion} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
-    gender: "Male" | "Female" | "unknown";
+    gender: "Male" | "Female" | "Genderless" | "unknown";
 }
 
 const GenderTag: React.FC<Props> = ({gender}) => {
     const icon_selection = ({gender}: Props) => {
         switch (gender) {
-            case "unknown":
-                return faQuestion;
             case "Female":
                 return faVenus;
             case "Male":
                 return faMars;
+            default:
+                return faQuestion;
         }
     }
     return (
-        <Text style={genderTagStyles.genderTag} >
+        <View style={genderTagStyles.genderTag}>
             <FontAwesomeIcon icon={icon_selection({
                 gender: gender
-            })} />
+            })}/>
             <Text>{gender}</Text>
-        </Text>
+        </View>
     )
 }
 
 const genderTagStyles = StyleSheet.create({
     genderTag: {
+        padding: 10,
         textTransform: "capitalize",
         flexDirection: "row",
-        width: 90,
-        gap: 5,
-        backgroundColor: "#f0efed",
-        padding: 5,
         alignItems: "center",
         justifyContent: "center",
+        gap: 5,
+        backgroundColor: "#f0efed",
         borderRadius: 100
     },
 })
